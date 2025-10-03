@@ -1,0 +1,141 @@
+Here's the organized and cleaned-up version of your Docker notes:
+
+## Docker Containerization for Vite Application
+
+### Basic Vite Setup
+
+**Docker Command:**
+```bash
+docker run -p 5173:5173 vite-test
+```
+
+**Vite Configuration:**
+```javascript
+// vite.config.js
+export default defineConfig({
+    server: {
+        host: "0.0.0.0",
+        port: 5173,
+    }
+});
+```
+
+### Image Management
+
+**Key Point:** Images are immutable
+
+**Building and Running:**
+```bash
+# Build first version
+docker build -t vite-test .
+
+# Run first version
+docker run -p 5173:5173 vite-test
+
+# After code changes, build with version tag
+docker build -t vite-test:2 .
+
+# Run new version
+docker run -p 5173:5173 vite-test:2
+```
+
+### Dockerfile for Node.js Application
+
+```dockerfile
+# Use official Node.js runtime
+FROM node:20-lts-slim
+
+# Set working directory inside container
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy application code (excluding node_modules via .dockerignore)
+COPY . .
+
+# Set environment variable for port
+ENV PORT=4040
+
+# Start application
+CMD ["node", "index.js"]
+```
+
+### .dockerignore File
+```
+node_modules
+bar
+```
+
+### Building and Running Express App
+
+```bash
+# Create image
+docker build -t express-app .
+
+# Run with specific port mapping
+docker run -p 4040:4040 -e PORT=4040 --rm express-app
+
+# Run with different host port
+docker run -p 4000:3000 -e PORT=4040 --rm express-app
+
+# Run with environment file
+docker run -p 4000:3000 --env-file .env --rm express-app
+```
+
+**Port Mapping Explanation:**
+- `-p host_port:container_port`
+- `-e`: Set environment variables
+- `--rm`: Remove container when stopped
+
+## Docker Multi-Stage Build
+
+### Stage 1: Build Stage
+```dockerfile
+FROM node:20-lts-slim AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+```
+
+### Stage 2: Production Stage
+```dockerfile
+FROM node:20-lts-slim
+
+WORKDIR /app
+
+# Copy from build stage
+COPY --from=builder /app /app
+
+EXPOSE 3000
+ENV PORT=3000
+
+CMD ["node", "server.js"]
+```
+
+### Building Multi-Stage Image
+```bash
+docker build -t express-multistage .
+```
+
+## Benefits of Multi-Stage Builds
+
+1. **Smaller final image** - Only includes runtime dependencies
+2. **Better security** - Build tools not included in production
+3. **Optimized layers** - Clean separation between build and runtime
+
+## Key Concepts
+
+- **Images are immutable** - Changes require rebuilding
+- **Port mapping** - Host port to container port mapping
+- **Environment variables** - Configure application behavior
+- **Multi-stage builds** - Optimize image size and security
+- **.dockerignore** - Exclude unnecessary files from build context
