@@ -49,3 +49,23 @@ docker compose :: it allows to define and manage multi-container docker applicat
 
 docker init: docker cli which generate files for us ,
 we initialize ur app with all neede file to dockerize it by specifying out tech choices.
+
+
+/// cd react-project 
+docker init  
+it create dockerfile
+dockerignore
+compose.yaml
+
+services:
+  web:
+    build:
+      context: .
+    ports:
+      - 5173:5173
+     volumes:
+       - .:/app
+       - /app/node_modules
+
+
+>> sudo docker compose up
