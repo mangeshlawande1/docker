@@ -69,3 +69,51 @@ services:
 
 
 >> sudo docker compose up
+## Kubernates 
+if there are too many request for single container to handle , that container has sealing, and it dies ur app dies with it , hence kubernates comes into picture,
+**kubernates** is a container orchestration platform 
+feature:
+    1. schedule 
+    2. scale 
+    3. self heal 
+    4. load balance the container across machines ,so your app says up
+
+a single process can handle limited number of concurrent requests before cpu and memory becomes bottlenecks ,
+we can tune and scale vertically , there is always going to be ceiling and single point of failure, hence need replicas and 
+automated way to place it & manage them that is kubernates.
+also known as k8s, it is open source platform ,
+it helps to run your app across multiple nodes , 
+scale replicas ups and down based on demands , 
+restarts unhealthy containers automatically 
+& distribute traffic across replicas 
+all rolling out updates without downtime
+docker gives u  containers 
+kebernates decides how, where & when they run 
+ie kubernates is operating system for your container without this u need to manage container manually 
+    starting /stopping containers,
+    keeping track of IP addresses,
+    restarting crashed apps,
+    scaling things up or down by hand 
+
+Kubernates components :
+   1. Cluster :
+        a group of machine which virtual , physical that work together as single system .
+        -cluster is made up of control plane , which decides schedules, reconciles & monitor health.
+
+  2. worker node : a machine where ur container runs 
+    each worker node runs a cubullets , an agent that communicate with the control plane and container runtime ie docker .
+    cube-proxy : handles networking and routing inside cluster for every node .
+
+3. PODS :: 
+    kebernates dont run container directly,Instead a container are wrapped in something caled pod .
+    a pod is the smallest deployable unit in kubernates , there is usually 1 container per pod  & each pod get its own IP address,
+    when u deploy ur app , kubernates runs it inside a pods 
+    you never interact containeer directly in kubernates ,
+    u can run multiple pods by specify something known as replica set  
+5. replica set  :: ensures a specified ie 4 number of pods are always running.
+    if 1 die it automatically spin a new one
+
+
+6. Deployment :
+ it is highr level object that manages replica set ,
+ it allows u to define update to your application 
