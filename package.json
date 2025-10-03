@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "the backend dockerized application ",
+  "keywords": [
+    "docker",
+    "express",
+    "npm",
+    "app",
+    "container"
+  ],
+  "license": "ISC",
+  "author": "mangesh lawande",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm index.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}

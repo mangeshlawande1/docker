@@ -1,0 +1,36 @@
+# use an official image  of nodejs runtime
+FROM node:20-lts-slim
+
+
+# set the working directory inside the container 
+WORKDIR  /app
+
+
+# copy all package.json files in the working directory
+COPY package*.json ./
+
+
+# install dependencies
+
+RUN  npm install 
+
+# copy all the files from current directory in cotainer directory i.e., app, instead of node_modules
+COPY . .
+
+# get port from env variables , CAN WRITE MULTIPLE VALUES IN IT 
+ENV PORT = 4040
+
+CMD ['node', 'index.js','start']
+
+# dockerignore
+
+#create image
+# docker build -t express-app . 
+
+#docker run -p 4040:4040 -e PORT=4040 --rm express-app
+#docker run -p main_machine_port:container_serve_port -e PORT=4040 --rm express-app
+
+# pass env file in container directly
+#docker run -p 4000:3000 --env-file .env --rm express-app
+
+## -e : for env variable , --rm : if all done remove the app-container-port, 
