@@ -244,3 +244,129 @@ eval $(minikube docker-env)
 
 ## 🧠 5️⃣ Kubernetes Objects Hierarchy (Simple Visual)
 
+# kubernates-demo % docker tag kubernates-demo-api:latest jsmasterpro/kubernates-demo-api:latest
+
+kubernates-demo-api:latest - The source image
+
+kubernates-demo-api - Your local image name
+
+:latest - The tag (version) of the image
+
+jsmasterpro/kubernates-demo-api:latest - The target image
+
+jsmasterpro - Your Docker Hub username (or organization name)
+
+kubernates-demo-api - Repository name on Docker Hub
+
+:latest - Tag for the remote image
+
+What This Command Does:
+Creates an alias - It doesn't copy the image data, just creates a new reference to the same image layers
+
+Prepares for push - Formats the image name according to Docker Hub naming conventions
+
+Maintains version - Keeps the latest tag
+
+
+.. push the image to docker hub 
+
+>> docker push jsmasterpro/kubernates-demo-api:latest
+
+
+--- Make docker image horizontally scalable,
+### use Kubernates ::
+
+k8s folder
+  deployment.yaml
+    -> define the api version 
+    -> metadata: name 
+    specification : 
+       -> create copies of app/replicas 
+       -> add some labels 
+
+    spec: define specification for containers> give image , name amd app, port , pass additional env variables 
+    -> attatch different amt of resources 
+
+    -> mention docker image u want to use 
+    -> mention port to listen on  
+    -> 
+
+provide network access to our pods
+-> create service.yaml
+      -> define version
+      kind:service 
+      metadata: 
+      mention port , protocol 
+
+tool that sets up local cluster on a laptop
+cmds 
+    >> minikube start
+    >> kubectl get nodes
+    >> kubectl apply -f k8s/ : both files run simultaneously 
+
+    >>kubectl get pods -w :: get status 
+    >>minikube service service_name: run services
+
+    >>
+    >>
+
+
+:::: 
+Api server receives a yaml file ,
+ schedular assign pods to nodes 
+kubukates start container inside pods 
+service ensures the network is running in these pods 
+
+:::
+1. have to create docker image 
+2. push it over to docker hub 
+3. start minikube 
+4. do kubernates deployment 
+5. get list of pods 
+6. get services
+7. test it out. these type of action repeates again and again 
+
+Instead of this , write a bash script 
+deploy.sh
+
+set -e :: want to run in bash
+NAME=
+USERNAME=
+IMAGE = "$USENAME/$NAME:latest"
+
+echo "building docker image" for console log
+
+docker build -t $IMAGE .
+
+echo "pushing image to Docker Hub..." for console log
+
+docker push $IMAGE
+
+echo "Apply Kubernates manifest..."
+ kubectl apply -f k8s/deployment.yaml
+ kubectl apply -f k8s/service.yaml
+
+echo "getting pods..."
+kubectl get pods
+
+echo "getting services..."
+kubectl get services
+
+echo "fetching the main service..."
+kubectl het services $NAME-service
+
+minikube stop 
+delete all container 
+minikube start
+
+set configuration in package.json
+"deploy":"sh deploy.sh"
+
+npm run deploy
+
+minikube service service_name
+
+
+for scaling , in deployment yaml, change the number of replicas
+hence u can rescale the app within seconds 
+
