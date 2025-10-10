@@ -214,6 +214,33 @@ deployment.yaml
 | Local Tool | Docker Desktop | Minikube / kind |
 
 ---
+eval $(minikube docker-env)
+``` |
+| **Example commands** |
+- Start cluster: `minikube start`  
+- View services: `minikube service <service-name>`  
+- Stop/delete: `minikube stop`, `minikube delete` |
 
-Would you like me to give you a **visual diagram (image)** showing how Docker containers fit inside Pods → Nodes → Cluster?  
-It helps a lot to visualize this hierarchy.
+---
+
+## 🔧 4️⃣ kubectl — Kubernetes CLI (Command-Line Interface)
+
+| Concept | Description |
+|----------|--------------|
+| **kubectl** | The **official CLI tool** to interact with your Kubernetes cluster. |
+| **Purpose** | Used to create, inspect, delete, and debug Kubernetes resources. |
+| **Example Commands** |  
+- `kubectl get pods` → List all pods  
+- `kubectl apply -f deployment.yaml` → Deploy your app  
+- `kubectl logs <pod>` → View logs  
+- `kubectl exec -it <pod> -- /bin/bash` → Open shell inside container |
+
+🧠 Think of:
+> `kubectl` = remote control  
+> `Kubernetes` = TV system  
+> `YAML` = TV programs to show  
+
+---
+
+## 🧠 5️⃣ Kubernetes Objects Hierarchy (Simple Visual)
+
