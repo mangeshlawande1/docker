@@ -116,4 +116,104 @@ Kubernates components :
 
 6. Deployment :
  it is highr level object that manages replica set ,
- it allows u to define update to your application 
+ it allows u to define update to your application.
+kebernates can rolling updates, gradually replace all pods with new ones, it never see down time ,ensures reality always matches desired state .
+1. pods are temporary,they come & go each   time they get a new ip, 
+2. the user connect pods throug services : 
+it's a stable endpoints , can have permanent ip or dns name that automatically route traffic to available pods behind it. 
+it also load balances request along multiple replicas
+
+**configMaps and secrets** : app needs configurations and credentials 
+1.1. configMaps : store configuration data 
+1.2. secrets : store sensitive data 
+
+**Ingress** :
+   like a smart router that expose https and http routes to the outside world   
+   ie.,  it can map api.myapp.com to your backend service 
+
+**Volumes**: 
+  kubernates provide volumes for storage 
+
+**create local cluster before production cluster**:
+they simulate a whole kubenates env without risking ur production app. 
+
+eg., 1.1 kind : kunernates in docker which  runs cluster inside container , efficient for cicd pipeline & automated testing 
+1.2 K3S : lightweight kubernates distribution ,
+goods internet of things ,
+resource-constrained machines
+
+**1.3 Minicube**: it is lightweight and run a single node(cluster have single node act both contrl plane and worker node  )cluster inside a virtual machine or container    
+cluster is usually multinode.
+
+**control plane nodes :** manages the cluster like
+  API server, schedule, kubelet   
+**worker node** : run app workload containing pods and container 
+
+for single node both both role on the same machine.
+
+kubernates-demo :
+
+npm init 
+npm i express 
+cli for kubernates 
+cubectl 
+install minikube local kubernates , focusing on making it easy to learn & develope for kubernates 
+touch index.js
+
+
+push image to docker hub 
+
+after dockerization ,
+make image  horizontally scalable 
+
+make dir k8s 
+deployment.yaml
+ define api version
+ specification : how many replicas want 
+
+
+ 
+---
+
+## 🚀 6️⃣ Cluster vs Container vs Pod — Summary
+
+| Term | Scope | Contains | Example |
+|------|--------|-----------|----------|
+| **Cluster** | Entire K8s environment | Multiple nodes | Minikube cluster |
+| **Node** | One machine (worker) | Multiple pods | minikube node |
+| **Pod** | Smallest deployable unit | One or more containers | A pod running Express app |
+| **Container** | Application runtime | App code + libs | Docker container inside pod |
+
+📦 Example:
+- Cluster has 1 node (Minikube)
+- Node runs 3 pods (frontend, backend, db)
+- Each pod runs 1 container (Docker image)
+
+---
+
+## ⚙️ 7️⃣ Typical Workflow (Local Dev → K8s)
+
+1. **Build image** → `docker build -t my-app .`  
+2. **(Optional)** Load into Minikube → `minikube image load my-app`  
+3. **Deploy to K8s** → `kubectl apply -f deployment.yaml`  
+4. **Expose it** → `kubectl apply -f service.yaml`  
+5. **Access app** → `minikube service my-app-service`
+
+---
+
+## 💡 8️⃣ Quick Comparison Table
+
+| Feature | Docker | Kubernetes |
+|----------|---------|-------------|
+| Purpose | Run individual containers | Orchestrate multiple containers |
+| Networking | Port mapping | Cluster-wide internal networking |
+| Scaling | Manual | Automatic via replicas |
+| Fault Tolerance | Restart container only | Reschedule pod on another node |
+| Storage | Local volumes | Persistent Volumes |
+| CLI | `docker` | `kubectl` |
+| Local Tool | Docker Desktop | Minikube / kind |
+
+---
+
+Would you like me to give you a **visual diagram (image)** showing how Docker containers fit inside Pods → Nodes → Cluster?  
+It helps a lot to visualize this hierarchy.

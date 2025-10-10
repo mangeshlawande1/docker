@@ -20,7 +20,7 @@ COPY . .
 # get port from env variables , CAN WRITE MULTIPLE VALUES IN IT 
 ENV PORT = 4040
 
-CMD ['node', 'index.js','start']
+CMD ["node", "index.js","start"]
 
 # dockerignore
 
